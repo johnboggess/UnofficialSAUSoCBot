@@ -21,9 +21,14 @@ namespace SAUSoCDiscordBot
 
         private async Task Main()
         {
+            if(!System.IO.File.Exists("secret.txt"))
+            {
+                throw new Exception("secret.txt was not found. Create secret.txt and put your bot's token in there. https://discord.foxbot.me/stable/guides/getting_started/first-bot.html#creating-a-discord-bot");
+            }
+
             _discordSocketClient = new DiscordSocketClient();
             _discordSocketClient.Log += Log;
-            await _discordSocketClient.LoginAsync(TokenType.Bot, System.IO.File.ReadAllText("secret.txt"));
+            await _discordSocketClient.LoginAsync(TokenType.Bot, System.IO.File.ReadAllLines("secret.txt")[0]);
             await _discordSocketClient.StartAsync();
 
             _commandHandler = new CommandHandler(_discordSocketClient, new Discord.Commands.CommandService(), _commandPrefix);
