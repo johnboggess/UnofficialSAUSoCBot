@@ -20,7 +20,7 @@ namespace SAUSoCDiscordBot
         }*/
 
         [Command("pin")]
-        [Description("Pins the message with the given ID. Right click a message and Click copy ID to get a message's ID. Example: !pin 702212971455184967")]
+        [Description("Pins the message with the given ID. Right click a message and click copy ID to get a message's ID. Example: !pin 702212971455184967")]
         public async Task Pin(CommandContext ctx, ulong messageID)
         {
             DiscordMessage msg = await ctx.Channel.GetMessageAsync(messageID);
@@ -37,7 +37,7 @@ namespace SAUSoCDiscordBot
         }
 
         [Command("source")]
-        [Description("Link to the source code on github")]
+        [Description("Link to the source code on github.")]
         public async Task Source(CommandContext ctx)
         {
             await ctx.RespondAsync("https://github.com/johnboggess/UnofficialSAUSoCBot");
