@@ -1,1 +1,1 @@
-﻿dotnet SAUSoCBotConsole.dll
+dotnet SAUSoCBotConsole.dll
