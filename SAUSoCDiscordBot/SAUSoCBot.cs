@@ -32,7 +32,7 @@ namespace SAUSoCDiscordBot
             CommandsNextConfiguration commandsNext = new CommandsNextConfiguration()
             {
                 StringPrefix = "!",
-                CaseSensitive = false
+                CaseSensitive = false,
             };
             
 
@@ -40,10 +40,16 @@ namespace SAUSoCDiscordBot
             Commands = DiscordClient.UseCommandsNext(commandsNext);
 
             Commands.RegisterCommands<Commands>();
+            Commands.CommandErrored += Commands_CommandErrored;
             
             await DiscordClient.ConnectAsync();
 
             await Task.Delay(-1);
+        }
+
+        private Task Commands_CommandErrored(CommandErrorEventArgs e)
+        {
+            return e.Context.RespondAsync("Invalid command: " + e.Context.Message.Content + ". Use !help to see a list of commands.");
         }
     }
 }
