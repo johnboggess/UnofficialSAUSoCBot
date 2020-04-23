@@ -2,58 +2,56 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using System.Linq;
 
-using Discord;
-using Discord.Commands;
-using Discord.WebSocket;
-using Discord.Net.Rest;
+using DSharpPlus;
+using DSharpPlus.Entities;
+using DSharpPlus.CommandsNext;
+using DSharpPlus.CommandsNext.Attributes;
 
 namespace SAUSoCDiscordBot
 {
-    public class Commands : ModuleBase<SocketCommandContext>
+    public class Commands
     {
         /*[Command("ping")]
-        public Task PingPong()
+        public async Task Hi(CommandContext ctx)
         {
-            ReplyAsync(Context.User.Mention + " Pong!").Wait();
-            return Task.CompletedTask;
+            await ctx.RespondAsync(ctx.User.Mention+" Pong!");
         }*/
 
         [Command("pin")]
-        [Summary("Pins the message with the given ID. Right click a message and Click copy ID to get a message's ID. Example: !pin 702212971455184967")]
-        public async Task Pin(ulong messageID)
+        [Description("Pins the message with the given ID. Right click a message and Click copy ID to get a message's ID. Example: !pin 702212971455184967")]
+        public async Task Pin(CommandContext ctx, ulong messageID)
         {
-            IMessage m = await Context.Channel.GetMessageAsync(messageID);
-            await ((IUserMessage)m).PinAsync();
-            int i = 0;
+            DiscordMessage msg = await ctx.Channel.GetMessageAsync(messageID);
+            await msg.PinAsync();
         }
 
         [Command("unpin")]
-        [Summary("Unpins the message with the given ID. Right click a message and Click copy ID to get a message's ID. Example: !unpin 702212971455184967")]
-        public async Task Unpin(ulong messageID)
+        [Description("Unpins the message with the given ID. Right click a message and click copy ID to get a message's ID. Example: !unpin 702212971455184967")]
+        public async Task Unpin(CommandContext ctx, ulong messageID)
         {
-            IMessage m = await Context.Channel.GetMessageAsync(messageID);
-            await ((IUserMessage)m).UnpinAsync();
-            int i = 0;
+
+            DiscordMessage msg = await ctx.Channel.GetMessageAsync(messageID);
+            await msg.UnpinAsync();
         }
 
-        //https://stackoverflow.com/a/52856282
-        [Command("help")]
-        [Summary("Lists all commands and their description.")]
-        public async Task Help()
+        /*[Command("help")]
+        [Description("Lists all commands and their description.")]
+        public async Task Help(CommandContext ctx)
         {
-            List<CommandInfo> commands = CommandHandler.Commands;
-            EmbedBuilder embedBuilder = new EmbedBuilder();
 
-            foreach (CommandInfo command in commands)
+            List<Command> commands = ctx.CommandsNext.RegisteredCommands.Values.ToList();
+            string result = "```";
+            foreach (Command command in commands)
             {
-                // Get the command Summary attribute information
-                string embedFieldText = command.Summary ?? "No description available\n";
-
-                embedBuilder.AddField(command.Name, embedFieldText);
+                string name = "**" + command.Name + "***";
+                string desc = command.Description ?? "No description available";
+                result += name + "/n" + desc + "/n";
+                
             }
-
-            await ReplyAsync("", false, embedBuilder.Build());
-        }
+            result+="```";
+            await ctx.RespondAsync(result);
+        }*/
     }
 }

@@ -8,7 +8,7 @@ namespace SAUSoCBotConsole
         static void Main(string[] args)
         {
             SAUSoCBot bot = new SAUSoCBot();
-            bot.Start('!');
+            bot.Start();
         }
     }
 }
