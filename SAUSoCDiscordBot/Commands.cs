@@ -38,10 +38,9 @@ namespace SAUSoCDiscordBot
 
         [Command("source")]
         [Description("Link to the source code on github")]
-        public async Task Source(CommandContext ctx, ulong messageID)
+        public async Task Source(CommandContext ctx)
         {
-            DiscordMessage msg = await ctx.Channel.GetMessageAsync(messageID);
-            await msg.RespondAsync("https://github.com/johnboggess/UnofficialSAUSoCBot");
+            await ctx.RespondAsync("https://github.com/johnboggess/UnofficialSAUSoCBot");
         }
 
         /*[Command("help")]
