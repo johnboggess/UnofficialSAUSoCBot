@@ -3,12 +3,18 @@ using System.Threading.Tasks;
 
 using DSharpPlus;
 using DSharpPlus.CommandsNext;
+
 namespace SAUSoCDiscordBot
 {
     public class SAUSoCBot
     {
+        public static Random Random = new Random(DateTime.Now.Millisecond);
+
         public DiscordClient DiscordClient;
         public CommandsNextModule Commands;
+
+        internal static Maze.Player _MazePlayer;
+
         public void Start()
         {
             MainAsync().ConfigureAwait(false).GetAwaiter().GetResult();

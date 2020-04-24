@@ -52,6 +52,34 @@ namespace SAUSoCDiscordBot
             await ctx.RespondAsync("https://github.com/johnboggess/UnofficialSAUSoCBot");
         }
 
+        [Command(nameof(StartMaze))]
+        [Description("Starts a maze.")]
+        public async Task StartMaze(CommandContext ctx, int depth)
+        {
+            if(depth == 1 || depth > 10)
+            {
+                await ctx.RespondAsync("Depth must be between 2 and 10");
+                return;
+            }
+
+            Maze.Room rm = new Maze.Room(depth);
+            rm.CreateExit();
+            SAUSoCBot._MazePlayer = new Maze.Player(rm);
+            await ctx.RespondAsync(SAUSoCBot._MazePlayer.GetRoomDescription());
+        }
+
+        [Command(nameof(Maze))]
+        [Description("Goto the given room.")]
+        public async Task Maze(CommandContext ctx, int room)
+        {
+            if (SAUSoCBot._MazePlayer == null)
+            {
+                await ctx.RespondAsync("A maze has not yet been started, use !"+nameof(StartMaze)+" to start a maze.");
+                return;
+            }
+            await ctx.RespondAsync(SAUSoCBot._MazePlayer.GotoRoom(room));
+        }
+
         /*[Command("help")]
         [Description("Lists all commands and their description.")]
         public async Task Help(CommandContext ctx)
